@@ -1,0 +1,62 @@
+.music-card-section {
+  .content-block-body {
+    padding: 20px;
+  }
+
+  .cards-container {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+  }
+
+  .no-cards-message {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a0aec0;
+    font-size: 14px;
+  }
+
+  .cards-scroll {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 0;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    /* Prevent content from being cut off */
+    &::after {
+      content: '';
+      padding-right: 20px;
+    }
+  }
+}
+
+/* Media player styles */
+.media-player {
+  margin-top: 20px;
+
+  .audio-player {
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+  }
+
+  .video-player {
+    width: 100%;
+    max-height: 400px;
+    margin-top: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+}

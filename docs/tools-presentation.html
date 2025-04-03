@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AgenticRide Tools Overview</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .slide {
+        background: white;
+        margin: 20px auto;
+        padding: 40px;
+        max-width: 800px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #2c3e50;
+        margin-bottom: 30px;
+      }
+      h2 {
+        color: #3498db;
+        margin-top: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #f8f9fa;
+        color: #2c3e50;
+      }
+      .feature-box {
+        background: #f8f9fa;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+      .highlight {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 타이틀 슬라이드 -->
+    <div class="slide">
+      <h1>AgenticRide</h1>
+      <h2>시스템 툴 개요</h2>
+    </div>
+
+    <!-- 학생 관리 툴 슬라이드 -->
+    <div class="slide">
+      <h2>🎓 학생 관리 툴</h2>
+      <table>
+        <tr>
+          <th>툴 이름</th>
+          <th>기능</th>
+        </tr>
+        <tr>
+          <td>getStudentsListTool</td>
+          <td>학원별 학생 명단 조회</td>
+        </tr>
+        <tr>
+          <td>displayStudentsListTool</td>
+          <td>학생 명단 화면 표시</td>
+        </tr>
+        <tr>
+          <td>updateStudentListTool</td>
+          <td>학생 상태 업데이트 (대기/탑승/결석)</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 경로 관리 툴 슬라이드 -->
+    <div class="slide">
+      <h2>🚌 경로 관리 툴</h2>
+      <div class="feature-box">
+        <h3>getMultiStopRouteTool</h3>
+        <p>카카오 모빌리티 API 기반 최적 경로 계산</p>
+        <ul>
+          <li>출발지 → 학생 픽업 지점 → 학원 경로 생성</li>
+          <li>실시간 교통 정보 반영</li>
+          <li>경로 데이터 JSON 저장</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 메시징 툴 슬라이드 -->
+    <div class="slide">
+      <h2>💬 메시징 툴</h2>
+      <table>
+        <tr>
+          <th>툴 이름</th>
+          <th>기능</th>
+        </tr>
+        <tr>
+          <td>sendKakaoTalkTool</td>
+          <td>카카오톡 메시지 전송</td>
+        </tr>
+        <tr>
+          <td>sendSlackTool</td>
+          <td>Slack 메시지 전송</td>
+        </tr>
+      </table>
+      <div class="feature-box">
+        <p>주요 알림 내용:</p>
+        <ul>
+          <li>학생 탑승 상태 변경</li>
+          <li>경로 업데이트</li>
+          <li>긴급 상황 알림</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 시각화 툴 슬라이드 -->
+    <div class="slide">
+      <h2>🎨 시각화 툴</h2>
+      <table>
+        <tr>
+          <th>툴 이름</th>
+          <th>기능</th>
+        </tr>
+        <tr>
+          <td>setCanvasTool</td>
+          <td>캔버스 기본 설정</td>
+        </tr>
+        <tr>
+          <td>setMusicCanvasTool</td>
+          <td>음악 시각화 캔버스 설정</td>
+        </tr>
+        <tr>
+          <td>musicCallbackTool</td>
+          <td>음악 재생 이벤트 처리</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 시스템 통합 슬라이드 -->
+    <div class="slide">
+      <h2>🔄 시스템 통합</h2>
+      <div class="feature-box">
+        <h3>주요 특징</h3>
+        <ul>
+          <li>실시간 데이터 동기화</li>
+          <li>다중 플랫폼 메시징 통합</li>
+          <li>직관적인 시각화 인터페이스</li>
+          <li>최적화된 경로 계산</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

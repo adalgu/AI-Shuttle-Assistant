@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AgenticStoryTeller Architecture</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .slide {
+        background: white;
+        margin: 20px auto;
+        padding: 40px;
+        max-width: 800px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #2c3e50;
+        text-align: center;
+      }
+      h2 {
+        color: #34495e;
+        margin-top: 30px;
+      }
+      .tech-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 20px 0;
+      }
+      .tech-item {
+        background: #3498db;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+      }
+      .architecture-diagram {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        margin: 20px 0;
+      }
+      .feature-list {
+        list-style-type: none;
+        padding: 0;
+      }
+      .feature-list li {
+        margin: 10px 0;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 5px;
+      }
+      .data-flow {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <h1>AgenticStoryTeller Architecture</h1>
+
+      <h2>1. 프로젝트 개요</h2>
+      <p>
+        AgenticStoryTeller는 OpenAI의 실시간 API를 활용하여 대화형 스토리텔링과
+        음악 생성을 제공하는 웹 애플리케이션입니다. 사용자와의 실시간 상호작용을
+        통해 스토리를 생성하고, 이에 맞는 음악과 시각적 요소를 제공합니다.
+      </p>
+
+      <h2>2. 기술 스택</h2>
+      <div class="tech-stack">
+        <div class="tech-item">React</div>
+        <div class="tech-item">TypeScript</div>
+        <div class="tech-item">SCSS</div>
+        <div class="tech-item">OpenAI Realtime API</div>
+        <div class="tech-item">WebSocket</div>
+        <div class="tech-item">Web Audio API</div>
+      </div>
+
+      <h2>3. 아키텍처 구조</h2>
+      <div class="architecture-diagram">
+        <pre>
+├── components/
+│   ├── console/         # 대화 및 이벤트 관련 컴포넌트
+│   ├── main/           # 메인 뷰 컴포넌트
+│   ├── music/          # 음악 라이브러리 컴포넌트
+│   └── visualization/  # 시각화 컴포넌트
+├── contexts/
+│   └── ConsoleContext  # 전역 상태 관리
+├── hooks/
+│   ├── useAudioVisualization
+│   ├── useRealtimeClient
+│   └── useConsoleInitialization
+└── tools/
+    ├── generateMusic
+    ├── generateLyrics
+    └── wavtools/
+</pre
+        >
+      </div>
+
+      <h2>4. 주요 기능</h2>
+      <ul class="feature-list">
+        <li>🎯 실시간 대화형 스토리텔링</li>
+        <li>🎵 AI 기반 음악 생성</li>
+        <li>🎨 스토리 기반 이미지 생성</li>
+        <li>📝 실시간 대화 기록</li>
+        <li>🎼 음악 라이브러리 관리</li>
+      </ul>
+
+      <h2>5. 데이터 흐름</h2>
+      <div class="data-flow">
+        <p><strong>1. 사용자 입력 → ConsoleContext</strong></p>
+        <p><strong>2. ConsoleContext → OpenAI Realtime API</strong></p>
+        <p><strong>3. API 응답 → 상태 업데이트</strong></p>
+        <p><strong>4. 상태 변경 → UI 업데이트</strong></p>
+        <ul>
+          <li>스토리 생성: stories 배열에 저장</li>
+          <li>음악 생성: music 객체에 저장</li>
+          <li>이벤트 로깅: realtimeEvents 배열에 저장</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

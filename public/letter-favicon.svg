@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Navy blue background circle -->
+  <circle cx="16" cy="16" r="16" fill="#000080"/>
+  <!-- Yellow 'A' letter -->
+  <path d="M16 6L24 26H8L16 6Z" fill="#FFD700"/>
+  <path d="M12 20H20" stroke="#FFD700" stroke-width="2"/>
+</svg>

@@ -1,0 +1,71 @@
+.conversation {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .content-block-body {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .input-area {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    .message-input-container {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      margin-left: auto;
+      max-width: 85%;
+
+      .message-input {
+        flex: 1;
+        height: 36px;
+        padding: 0 12px;
+        border: none;
+        background: transparent;
+        color: white;
+        font-size: 14px;
+        outline: none;
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.3);
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+
+      .send-button {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 50%;
+        background: #4299e1;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover:not(:disabled) {
+          background: #3182ce;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

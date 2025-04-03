@@ -1,0 +1,76 @@
+{
+  "academies": {
+    "카모아카데미": {
+      "name": "카모아카데미",
+      "address": "경기 성남시 분당구 판교역로 152",
+      "x": "127.11024293202674",
+      "y": "37.394348634049784",
+      "students": [
+        {
+          "name": "알렉스",
+          "poi_name": "판교 푸르지오 그랑블 아파트",
+          "address": "경기 성남시 분당구 동판교로 123",
+          "status": "waiting",
+          "parent_id": "gunn.kim"
+        },
+        {
+          "name": "이안",
+          "poi_name": "백현마을 4단지 아파트",
+          "address": "경기 성남시 분당구 동판교로 91",
+          "status": "waiting",
+          "parent_id": "gunn.kim"
+        },
+        {
+          "name": "주드",
+          "poi_name": "봇들마을 8단지",
+          "address": "경기 성남시 분당구 동판교로 153",
+          "status": "waiting",
+          "parent_id": "gunn.kim"
+        },
+        {
+          "name": "제이든",
+          "poi_name": "백현마을 5단지",
+          "address": "경기 성남시 분당구 판교역로 102",
+          "status": "waiting",
+          "parent_id": "gunn.kim"
+        },
+        {
+          "name": "매튜",
+          "poi_name": "알파리움1단지",
+          "address": "경기 성남시 분당구 대왕판교로606번길 10",
+          "status": "waiting",
+          "parent_id": "gunn.kim"
+        }
+      ]
+    },
+    "판교영재학원": {
+      "name": "판교영재학원",
+      "address": "경기 성남시 분당구 판교역로 166",
+      "x": "127.10860518470294",
+      "y": "37.401999820065534",
+      "students": [
+        {
+          "name": "소피아",
+          "poi_name": "판교원마을3단지",
+          "address": "경기 성남시 분당구 판교원로 81",
+          "status": "waiting",
+          "parent_id": "gunn.kim"
+        },
+        {
+          "name": "에밀리",
+          "poi_name": "판교원마을5단지",
+          "address": "경기 성남시 분당구 판교원로 98",
+          "status": "waiting",
+          "parent_id": "gunn.kim"
+        },
+        {
+          "name": "올리비아",
+          "poi_name": "판교원마을6단지",
+          "address": "경기 성남시 분당구 판교원로 110",
+          "status": "waiting",
+          "parent_id": "gunn.kim"
+        }
+      ]
+    }
+  }
+}

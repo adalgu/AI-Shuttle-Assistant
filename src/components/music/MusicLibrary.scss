@@ -1,0 +1,61 @@
+.music-library {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .content-block-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+  }
+
+  .empty-message {
+    color: #666;
+    font-style: italic;
+  }
+
+  .songs-container {
+    .song-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid #333;
+      color: #fff;
+      background-color: #1a1a1a;
+
+      &:hover {
+        background-color: #2c2c2c;
+      }
+
+      .song-title {
+        flex: 1;
+        margin-right: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .song-icons {
+        display: flex;
+        gap: 12px;
+        margin-right: 16px;
+
+        .icon {
+          cursor: pointer;
+          text-decoration: none;
+          font-size: 18px;
+
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+
+      .song-duration {
+        min-width: 60px;
+        text-align: right;
+        color: #888;
+      }
+    }
+  }
+}

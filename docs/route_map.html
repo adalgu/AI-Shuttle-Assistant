@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <script>
+      L_NO_TOUCH = false;
+      L_DISABLE_3D = false;
+    </script>
+
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <style>
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"
+    />
+
+    <meta
+      name="viewport"
+      content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <style>
+      #map_08b59fcc558511cde801bad8f9749611 {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        left: 0%;
+        top: 0%;
+      }
+      .leaflet-container {
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="folium-map" id="map_08b59fcc558511cde801bad8f9749611"></div>
+  </body>
+  <script>
+    // 버스 아이콘 생성
+    var busIcon = L.divIcon({
+      className: 'custom-div-icon',
+      html: `
+            <div style="
+                position: relative;
+                width: 30px;
+                height: 30px;
+            ">
+                <div style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 30px;
+                    height: 30px;
+                    background-color: #4285F4;
+                    border-radius: 50%;
+                    border: 3px solid white;
+                    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+                "></div>
+                <div style="
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 0;
+                    height: 0;
+                    border-left: 8px solid white;
+                    border-top: 4px solid transparent;
+                    border-bottom: 4px solid transparent;
+                "></div>
+            </div>
+        `,
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+    });
+
+    // 버스 마커 생성
+    var busMarker = L.marker((37.39447145478345, 127.10991634747967), {
+      icon: busIcon,
+      rotationAngle: 0,
+    }).addTo(map);
+
+    var points = [
+      [37.39447145478345, 127.10991634747967],
+      [37.394469584427156, 127.10966790676201],
+      [37.394469584427156, 127.10966790676201],
+      [37.396226781360426, 127.10968100356395],
+      [37.396226781360426, 127.10968100356395],
+      [37.39622783738649, 127.11341931516797],
+      [37.39622783738649, 127.11341931516797],
+      [37.40240904474889, 127.10860261294675],
+    ];
+    var currentIdx = 0;
+
+    function calculateAngle(start, end) {
+      var dx = end[1] - start[1];
+      var dy = end[0] - start[0];
+      var angle = (Math.atan2(dx, dy) * 180) / Math.PI;
+      return angle;
+    }
+
+    function animateBus() {
+      if (currentIdx < points.length - 1) {
+        var startPoint = points[currentIdx];
+        var endPoint = points[currentIdx + 1];
+        var angle = calculateAngle(startPoint, endPoint);
+
+        currentIdx++;
+        var startLatLng = L.latLng(startPoint[0], startPoint[1]);
+        var endLatLng = L.latLng(endPoint[0], endPoint[1]);
+
+        var startTime = Date.now();
+        var duration = 2000; // 2초
+
+        function animate() {
+          var now = Date.now();
+          var progress = (now - startTime) / duration;
+
+          if (progress > 1) {
+            busMarker.setLatLng(endLatLng);
+            busMarker._icon.style.transform += ` rotate(${angle}deg)`;
+            if (currentIdx < points.length - 1) {
+              setTimeout(animateBus, 200);
+            }
+          } else {
+            var lat =
+              startLatLng.lat + (endLatLng.lat - startLatLng.lat) * progress;
+            var lng =
+              startLatLng.lng + (endLatLng.lng - startLatLng.lng) * progress;
+            busMarker.setLatLng([lat, lng]);
+            busMarker._icon.style.transform += ` rotate(${angle}deg)`;
+            requestAnimationFrame(animate);
+          }
+        }
+
+        animate();
+      }
+    }
+
+    // 애니메이션 시작
+    setTimeout(animateBus, 1000);
+
+    var map_08b59fcc558511cde801bad8f9749611 = L.map(
+      'map_08b59fcc558511cde801bad8f9749611',
+      {
+        center: [37.39434769502827, 127.11023403583478],
+        crs: L.CRS.EPSG3857,
+        ...{
+          zoom: 15,
+          zoomControl: true,
+          preferCanvas: false,
+        },
+      }
+    );
+
+    var tile_layer_acae6fbcdf0ac65dc4fd5ad9cf7b646f = L.tileLayer(
+      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {
+        minZoom: 0,
+        maxZoom: 19,
+        maxNativeZoom: 19,
+        noWrap: false,
+        attribution:
+          '\u0026copy; \u003ca href="https://www.openstreetmap.org/copyright"\u003eOpenStreetMap\u003c/a\u003e contributors',
+        subdomains: 'abc',
+        detectRetina: false,
+        tms: false,
+        opacity: 1,
+      }
+    );
+
+    tile_layer_acae6fbcdf0ac65dc4fd5ad9cf7b646f.addTo(
+      map_08b59fcc558511cde801bad8f9749611
+    );
+
+    var marker_5434e8b5309eec20230cccf7348e788e = L.marker(
+      [37.39434769502827, 127.11023403583478],
+      {}
+    ).addTo(map_08b59fcc558511cde801bad8f9749611);
+
+    var icon_d0b06a117b0a406f9d3f6c4517d49331 = L.AwesomeMarkers.icon({
+      markerColor: 'green',
+      iconColor: 'white',
+      icon: 'info-sign',
+      prefix: 'glyphicon',
+      extraClasses: 'fa-rotate-0',
+    });
+    marker_5434e8b5309eec20230cccf7348e788e.setIcon(
+      icon_d0b06a117b0a406f9d3f6c4517d49331
+    );
+
+    marker_5434e8b5309eec20230cccf7348e788e.bindTooltip(
+      `<div>
+                     출발지
+                 </div>`,
+      {
+        sticky: true,
+      }
+    );
+
+    var marker_aae11fdada020bff4ccdf7e81fa2a838 = L.marker(
+      [37.39639001677204, 127.11341740484119],
+      {}
+    ).addTo(map_08b59fcc558511cde801bad8f9749611);
+
+    var icon_32213c245be721aff01a06813b8362b7 = L.AwesomeMarkers.icon({
+      markerColor: 'blue',
+      iconColor: 'white',
+      icon: 'info-sign',
+      prefix: 'glyphicon',
+      extraClasses: 'fa-rotate-0',
+    });
+    marker_aae11fdada020bff4ccdf7e81fa2a838.setIcon(
+      icon_32213c245be721aff01a06813b8362b7
+    );
+
+    marker_aae11fdada020bff4ccdf7e81fa2a838.bindTooltip(
+      `<div>
+                     경유지
+                 </div>`,
+      {
+        sticky: true,
+      }
+    );
+
+    var marker_7632c85162032456421b7c6033e2dc93 = L.marker(
+      [37.40199450213265, 127.10859622855493],
+      {}
+    ).addTo(map_08b59fcc558511cde801bad8f9749611);
+
+    var icon_ee74ebb78ca6ba0505e06ba266138776 = L.AwesomeMarkers.icon({
+      markerColor: 'red',
+      iconColor: 'white',
+      icon: 'info-sign',
+      prefix: 'glyphicon',
+      extraClasses: 'fa-rotate-0',
+    });
+    marker_7632c85162032456421b7c6033e2dc93.setIcon(
+      icon_ee74ebb78ca6ba0505e06ba266138776
+    );
+
+    marker_7632c85162032456421b7c6033e2dc93.bindTooltip(
+      `<div>
+                     목적지
+                 </div>`,
+      {
+        sticky: true,
+      }
+    );
+
+    var poly_line_eb10cbace1e4b7c2817608337c3e8769 = L.polyline(
+      [
+        [37.39447145478345, 127.10991634747967],
+        [37.394469584427156, 127.10966790676201],
+      ],
+      {
+        bubblingMouseEvents: true,
+        color: 'blue',
+        dashArray: null,
+        dashOffset: null,
+        fill: false,
+        fillColor: 'blue',
+        fillOpacity: 0.2,
+        fillRule: 'evenodd',
+        lineCap: 'round',
+        lineJoin: 'round',
+        noClip: false,
+        opacity: 0.7,
+        smoothFactor: 1.0,
+        stroke: true,
+        weight: 5,
+      }
+    ).addTo(map_08b59fcc558511cde801bad8f9749611);
+
+    var poly_line_f80a13cf7a6f80d4f95c4844fa2a8029 = L.polyline(
+      [
+        [37.394469584427156, 127.10966790676201],
+        [37.396226781360426, 127.10968100356395],
+      ],
+      {
+        bubblingMouseEvents: true,
+        color: 'blue',
+        dashArray: null,
+        dashOffset: null,
+        fill: false,
+        fillColor: 'blue',
+        fillOpacity: 0.2,
+        fillRule: 'evenodd',
+        lineCap: 'round',
+        lineJoin: 'round',
+        noClip: false,
+        opacity: 0.7,
+        smoothFactor: 1.0,
+        stroke: true,
+        weight: 5,
+      }
+    ).addTo(map_08b59fcc558511cde801bad8f9749611);
+
+    var poly_line_9e313bcd6eaec5cad2a0d8e79d334670 = L.polyline(
+      [
+        [37.396226781360426, 127.10968100356395],
+        [37.39622783738649, 127.11341931516797],
+      ],
+      {
+        bubblingMouseEvents: true,
+        color: 'blue',
+        dashArray: null,
+        dashOffset: null,
+        fill: false,
+        fillColor: 'blue',
+        fillOpacity: 0.2,
+        fillRule: 'evenodd',
+        lineCap: 'round',
+        lineJoin: 'round',
+        noClip: false,
+        opacity: 0.7,
+        smoothFactor: 1.0,
+        stroke: true,
+        weight: 5,
+      }
+    ).addTo(map_08b59fcc558511cde801bad8f9749611);
+
+    var poly_line_c40c68c535ad75502f8988aee9de6023 = L.polyline(
+      [
+        [37.39622783738649, 127.11341931516797],
+        [37.40240904474889, 127.10860261294675],
+      ],
+      {
+        bubblingMouseEvents: true,
+        color: 'blue',
+        dashArray: null,
+        dashOffset: null,
+        fill: false,
+        fillColor: 'blue',
+        fillOpacity: 0.2,
+        fillRule: 'evenodd',
+        lineCap: 'round',
+        lineJoin: 'round',
+        noClip: false,
+        opacity: 0.7,
+        smoothFactor: 1.0,
+        stroke: true,
+        weight: 5,
+      }
+    ).addTo(map_08b59fcc558511cde801bad8f9749611);
+  </script>
+</html>
