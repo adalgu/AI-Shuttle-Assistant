@@ -8,6 +8,7 @@ import {
   displayStudentsListTool,
   updateStudentListTool,
 } from './students';
+import { getCoordinatesTool } from './address';
 
 // Export all tools
 export {
@@ -19,6 +20,7 @@ export {
   getStudentsListTool,
   displayStudentsListTool,
   updateStudentListTool,
+  getCoordinatesTool,
 };
 
 // Register all available tools
@@ -31,4 +33,5 @@ export const tools = [
   getStudentsListTool(),
   displayStudentsListTool,
   updateStudentListTool,
+  getCoordinatesTool,
 ];
