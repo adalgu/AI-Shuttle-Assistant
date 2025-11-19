@@ -2,10 +2,10 @@ import { useConsole } from '../../contexts/ConsoleContext';
 import { useConsoleHandlers } from '../../hooks/useConsoleHandlers';
 import { Button } from '../button/Button';
 import { Toggle } from '../toggle/Toggle';
-import { X, Zap } from 'react-feather';
+import { X, Zap, Loader } from 'react-feather';
 
 export function ConsoleActions() {
-  const { isConnected, canPushToTalk, isRecording } = useConsole();
+  const { isConnected, canPushToTalk, isRecording, connectionState } = useConsole();
   const {
     handleTurnEndTypeChange,
     connectConversation,
@@ -14,6 +14,14 @@ export function ConsoleActions() {
     stopRecording,
   } = useConsoleHandlers();
 
+  const isConnecting = connectionState === 'connecting' || connectionState === 'reconnecting';
+
+  const getConnectionButtonLabel = () => {
+    if (connectionState === 'connecting') return '연결 중...';
+    if (connectionState === 'reconnecting') return '재연결 중...';
+    return isConnected ? '운행종료' : '운행시작';
+  };
+
   return (
     <div className="content-actions">
       <Toggle
@@ -21,6 +29,7 @@ export function ConsoleActions() {
         labels={['타자모드on', '음성모드on']}
         values={['none', 'server_vad']}
         onChange={handleTurnEndTypeChange}
+        disabled={isConnecting}
       />
       <div className="spacer" />
       {isConnected && canPushToTalk && (
@@ -34,11 +43,12 @@ export function ConsoleActions() {
       )}
       <div className="spacer" />
       <Button
-        label={isConnected ? '운행종료' : '운행시작'}
+        label={getConnectionButtonLabel()}
         iconPosition={isConnected ? 'end' : 'start'}
-        icon={isConnected ? X : Zap}
+        icon={isConnecting ? Loader : (isConnected ? X : Zap)}
         buttonStyle={isConnected ? 'regular' : 'action'}
         onClick={isConnected ? disconnectConversation : connectConversation}
+        disabled={isConnecting}
       />
     </div>
   );

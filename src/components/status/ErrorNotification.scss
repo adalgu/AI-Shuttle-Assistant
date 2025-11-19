@@ -1,0 +1,123 @@
+.error-notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  min-width: 320px;
+  max-width: 480px;
+  padding: 16px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-left: 4px solid #ef4444;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+
+  .error-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+
+    .error-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .error-message {
+      flex: 1;
+
+      strong {
+        display: block;
+        color: #991b1b;
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+
+      p {
+        margin: 0;
+        color: #7f1d1d;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+    }
+  }
+
+  .error-close {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #991b1b;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+
+    &:hover {
+      background-color: #fee2e2;
+    }
+  }
+
+  &.error-microphone {
+    border-left-color: #f59e0b;
+    background-color: #fffbeb;
+    border-color: #fde68a;
+
+    .error-content .error-message strong {
+      color: #92400e;
+    }
+
+    .error-content .error-message p {
+      color: #78350f;
+    }
+
+    .error-close {
+      color: #92400e;
+
+      &:hover {
+        background-color: #fef3c7;
+      }
+    }
+  }
+
+  &.error-network,
+  &.error-connection {
+    border-left-color: #3b82f6;
+    background-color: #eff6ff;
+    border-color: #bfdbfe;
+
+    .error-content .error-message strong {
+      color: #1e40af;
+    }
+
+    .error-content .error-message p {
+      color: #1e3a8a;
+    }
+
+    .error-close {
+      color: #1e40af;
+
+      &:hover {
+        background-color: #dbeafe;
+      }
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

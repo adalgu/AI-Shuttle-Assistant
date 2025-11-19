@@ -9,6 +9,8 @@ import {
   CanvasKV,
 } from '../types/console';
 import { SAMPLE_RATE } from '../constants/config';
+import { useErrorHandler, ErrorState } from '../hooks/useErrorHandler';
+import { useMicrophonePermission, MicrophonePermissionState } from '../hooks/useMicrophonePermission';
 
 interface ConsoleContextType {
   items: ItemType[];
@@ -41,6 +43,14 @@ interface ConsoleContextType {
   startTimeRef: React.MutableRefObject<string>;
   clientCanvasRef: React.RefObject<HTMLCanvasElement>;
   serverCanvasRef: React.RefObject<HTMLCanvasElement>;
+  errorState: ErrorState;
+  handleError: (error: any, type?: ErrorState['errorType']) => void;
+  clearError: () => void;
+  permissionState: MicrophonePermissionState;
+  microphoneAvailable: boolean;
+  requestMicrophonePermission: () => Promise<boolean>;
+  connectionState: 'connected' | 'disconnected' | 'connecting' | 'reconnecting';
+  setConnectionState: (state: 'connected' | 'disconnected' | 'connecting' | 'reconnecting') => void;
 }
 
 export const ConsoleContext = createContext<ConsoleContextType | undefined>(
@@ -70,6 +80,17 @@ export function ConsoleProvider({
   const [canvasKv, setCanvasKv] = useState<CanvasKV>({});
   const [coords, setCoords] = useState<Coordinates>({ lat: 0, lng: 0 });
   const [marker, setMarker] = useState<Coordinates | null>(null);
+  const [connectionState, setConnectionState] = useState<'connected' | 'disconnected' | 'connecting' | 'reconnecting'>('disconnected');
+
+  // Error handling
+  const { errorState, handleError, clearError } = useErrorHandler();
+
+  // Microphone permission
+  const {
+    permissionState,
+    microphoneAvailable,
+    requestPermission: requestMicrophonePermission,
+  } = useMicrophonePermission();
 
   const wavRecorderRef = useRef<WavRecorder>(
     new WavRecorder({ sampleRate: SAMPLE_RATE })
@@ -120,6 +141,14 @@ export function ConsoleProvider({
         startTimeRef,
         clientCanvasRef,
         serverCanvasRef,
+        errorState,
+        handleError,
+        clearError,
+        permissionState,
+        microphoneAvailable,
+        requestMicrophonePermission,
+        connectionState,
+        setConnectionState,
       }}
     >
       {children}

@@ -10,6 +10,8 @@ import { Conversation } from '../components/console/Conversation';
 import { ConsoleActions } from '../components/console/ConsoleActions';
 import { MainView } from '../components/main/MainView';
 import { StudentList } from '../components/student/StudentList';
+import { StatusIndicator } from '../components/status/StatusIndicator';
+import { ErrorNotification } from '../components/status/ErrorNotification';
 import { useConsole } from '../contexts/ConsoleContext';
 import { LOCAL_RELAY_SERVER_URL } from '../constants/config';
 
@@ -66,11 +68,13 @@ function ConsoleContent() {
 
   return (
     <div className="content-main">
+      <ErrorNotification />
       <div className="content-right">
         <MainView />
         <StudentList memoryKv={memoryKv} />
       </div>
       <div className="content-logs" ref={eventsScrollRef}>
+        <StatusIndicator />
         <Conversation />
         <Events />
         <ConsoleActions />

@@ -1,0 +1,108 @@
+.status-indicator {
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  font-size: 13px;
+  align-items: center;
+
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.7);
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    span {
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    &.status-connected {
+      .status-dot {
+        background-color: #10b981;
+        box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+      }
+      span {
+        color: #065f46;
+      }
+    }
+
+    &.status-connecting {
+      .status-dot {
+        background-color: #f59e0b;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+      span {
+        color: #92400e;
+      }
+    }
+
+    &.status-disconnected {
+      .status-dot {
+        background-color: #ef4444;
+      }
+      span {
+        color: #991b1b;
+      }
+    }
+
+    &.status-recording {
+      .status-dot {
+        background-color: #ef4444;
+        animation: pulse 1s ease-in-out infinite;
+      }
+      span {
+        color: #991b1b;
+        font-weight: 600;
+      }
+    }
+
+    &.status-ready {
+      .status-dot {
+        background-color: #10b981;
+      }
+      span {
+        color: #065f46;
+      }
+    }
+
+    &.status-denied {
+      .status-dot {
+        background-color: #ef4444;
+      }
+      span {
+        color: #991b1b;
+      }
+    }
+
+    &.status-prompt {
+      .status-dot {
+        background-color: #f59e0b;
+      }
+      span {
+        color: #92400e;
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+}
