@@ -10,7 +10,7 @@ export const useConnectionManager = ({ client, onError }: ConnectionManagerProps
   const [connectionState, setConnectionState] = useState<'connected' | 'disconnected' | 'connecting' | 'reconnecting'>('disconnected');
   const reconnectAttempts = useRef(0);
   const maxReconnectAttempts = 3;
-  const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
+  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   const attemptReconnect = useCallback(async () => {
     if (reconnectAttempts.current >= maxReconnectAttempts) {
