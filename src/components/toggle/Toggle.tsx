@@ -7,11 +7,13 @@ export function Toggle({
   values,
   labels,
   onChange = () => {},
+  disabled = false,
 }: {
   defaultValue?: string | boolean;
   values?: string[];
   labels?: string[];
   onChange?: (isEnabled: boolean, value: string) => void;
+  disabled?: boolean;
 }) {
   if (typeof defaultValue === 'string') {
     defaultValue = !!Math.max(0, (values || []).indexOf(defaultValue));
@@ -23,6 +25,7 @@ export function Toggle({
   const [value, setValue] = useState<boolean>(defaultValue);
 
   const toggleValue = () => {
+    if (disabled) return;
     const v = !value;
     const index = +v;
     setValue(v);
@@ -49,6 +52,8 @@ export function Toggle({
       data-component="Toggle"
       onClick={toggleValue}
       data-enabled={value.toString()}
+      data-disabled={disabled.toString()}
+      style={{ opacity: disabled ? 0.6 : 1, cursor: disabled ? 'not-allowed' : 'pointer' }}
     >
       {labels && (
         <div className="label left" ref={leftRef}>

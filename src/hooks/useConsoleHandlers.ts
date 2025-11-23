@@ -16,6 +16,11 @@ export function useConsoleHandlers() {
     setMarker,
     setIsRecording,
     startTimeRef,
+    handleError,
+    clearError,
+    permissionState,
+    requestMicrophonePermission,
+    setConnectionState,
   } = useConsole();
 
   const handleTurnEndTypeChange = useCallback(
@@ -35,24 +40,45 @@ export function useConsoleHandlers() {
   );
 
   const connectConversation = useCallback(async () => {
-    startTimeRef.current = new Date().toISOString();
-    setIsConnected(true);
-    setRealtimeEvents(() => []);
-    setItems(client.conversation.getItems());
+    try {
+      clearError();
 
-    await wavRecorder.begin();
-    await wavStreamPlayer.connect();
-    await client.connect();
+      // Check microphone permission first
+      if (permissionState !== 'granted') {
+        const granted = await requestMicrophonePermission();
+        if (!granted) {
+          handleError(null, 'microphone');
+          return;
+        }
+      }
 
-    client.sendUserMessageContent([
-      {
-        type: `input_text`,
-        text: `안녕? 오늘도 안전하게 아이들을 태워보자. 판교영재학원 아이들 명단을 보여줘.`,
-      },
-    ]);
+      setConnectionState('connecting');
+      startTimeRef.current = new Date().toISOString();
+      setRealtimeEvents(() => []);
+      setItems(client.conversation.getItems());
 
-    if (client.getTurnDetectionType() === 'server_vad') {
-      await wavRecorder.record((data) => client.appendInputAudio(data.mono));
+      await wavRecorder.begin();
+      await wavStreamPlayer.connect();
+      await client.connect();
+
+      setIsConnected(true);
+      setConnectionState('connected');
+
+      client.sendUserMessageContent([
+        {
+          type: `input_text`,
+          text: `안녕? 오늘도 안전하게 아이들을 태워보자. 판교영재학원 아이들 명단을 보여줘.`,
+        },
+      ]);
+
+      if (client.getTurnDetectionType() === 'server_vad') {
+        await wavRecorder.record((data) => client.appendInputAudio(data.mono));
+      }
+    } catch (error) {
+      console.error('Connection error:', error);
+      setIsConnected(false);
+      setConnectionState('disconnected');
+      handleError(error, 'connection');
     }
   }, [
     client,
@@ -62,19 +88,30 @@ export function useConsoleHandlers() {
     setRealtimeEvents,
     setItems,
     startTimeRef,
+    handleError,
+    clearError,
+    permissionState,
+    requestMicrophonePermission,
+    setConnectionState,
   ]);
 
   const disconnectConversation = useCallback(async () => {
-    setIsConnected(false);
-    setRealtimeEvents(() => []);
-    setItems([]);
-    setMemoryKv((prev: MemoryKV) => ({}));
-    setCoords(DEFAULT_COORDINATES);
-    setMarker(null);
+    try {
+      setConnectionState('disconnected');
+      setIsConnected(false);
+      setRealtimeEvents(() => []);
+      setItems([]);
+      setMemoryKv((prev: MemoryKV) => ({}));
+      setCoords(DEFAULT_COORDINATES);
+      setMarker(null);
 
-    client.disconnect();
-    await wavRecorder.end();
-    await wavStreamPlayer.interrupt();
+      client.disconnect();
+      await wavRecorder.end();
+      await wavStreamPlayer.interrupt();
+    } catch (error) {
+      console.error('Disconnect error:', error);
+      handleError(error, 'general');
+    }
   }, [
     client,
     wavRecorder,
@@ -85,23 +122,45 @@ export function useConsoleHandlers() {
     setMemoryKv,
     setCoords,
     setMarker,
+    setConnectionState,
+    handleError,
   ]);
 
   const startRecording = useCallback(async () => {
-    setIsRecording(true);
-    const trackSampleOffset = await wavStreamPlayer.interrupt();
-    if (trackSampleOffset?.trackId) {
-      const { trackId, offset } = trackSampleOffset;
-      await client.cancelResponse(trackId, offset);
+    try {
+      // Check microphone permission
+      if (permissionState !== 'granted') {
+        const granted = await requestMicrophonePermission();
+        if (!granted) {
+          handleError(null, 'microphone');
+          return;
+        }
+      }
+
+      setIsRecording(true);
+      const trackSampleOffset = await wavStreamPlayer.interrupt();
+      if (trackSampleOffset?.trackId) {
+        const { trackId, offset } = trackSampleOffset;
+        await client.cancelResponse(trackId, offset);
+      }
+      await wavRecorder.record((data) => client.appendInputAudio(data.mono));
+    } catch (error) {
+      console.error('Start recording error:', error);
+      setIsRecording(false);
+      handleError(error, 'microphone');
     }
-    await wavRecorder.record((data) => client.appendInputAudio(data.mono));
-  }, [client, wavRecorder, wavStreamPlayer, setIsRecording]);
+  }, [client, wavRecorder, wavStreamPlayer, setIsRecording, permissionState, requestMicrophonePermission, handleError]);
 
   const stopRecording = useCallback(async () => {
-    setIsRecording(false);
-    await wavRecorder.pause();
-    client.createResponse();
-  }, [client, wavRecorder, setIsRecording]);
+    try {
+      setIsRecording(false);
+      await wavRecorder.pause();
+      client.createResponse();
+    } catch (error) {
+      console.error('Stop recording error:', error);
+      handleError(error, 'general');
+    }
+  }, [client, wavRecorder, setIsRecording, handleError]);
 
   const deleteConversationItem = useCallback(
     async (id: string) => {

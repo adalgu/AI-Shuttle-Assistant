@@ -25,7 +25,9 @@ export const useRealtimeEvents = ({
   );
 
   const handleError = useCallback((event: any) => {
-    console.error(event);
+    console.error('Realtime API error:', event);
+    // Errors are already handled by the context's error handler
+    // This is just for logging purposes
   }, []);
 
   const handleInterruption = useCallback(async () => {
