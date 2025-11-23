@@ -47,7 +47,7 @@ export function useConsoleHandlers() {
       if (permissionState !== 'granted') {
         const granted = await requestMicrophonePermission();
         if (!granted) {
-          handleError(new Error('마이크 권한이 거부되었습니다.'), 'microphone');
+          handleError(null, 'microphone');
           return;
         }
       }
